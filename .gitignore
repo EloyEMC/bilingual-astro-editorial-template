@@ -1,0 +1,9 @@
+# Local development/runtime state
+.atl/
+.codegraph/
+.DS_Store
+
+# Dependencies and generated output
+node_modules/
+dist/
+.astro/

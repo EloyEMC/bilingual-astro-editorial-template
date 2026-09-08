@@ -1,0 +1,425 @@
+:root {
+  --ink: #f4e6ca;
+  --paper: #03050b;
+  --muted: #b0a795;
+  --gold: #d9a13d;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--ink);
+  background: var(--paper);
+}
+a {
+  color: inherit;
+}
+.locale-switch {
+  position: fixed;
+  z-index: 10;
+  top: 1.25rem;
+  right: clamp(1.25rem, 5vw, 5rem);
+  color: rgba(244, 230, 202, 0.72);
+  font:
+    600 0.65rem / 1 Arial,
+    sans-serif;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+}
+.locale-switch:hover,
+.locale-switch:focus-visible {
+  color: var(--gold);
+}
+.locale-switch:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 0.4rem;
+}
+main {
+  overflow: hidden;
+}
+.book-landing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+  gap: clamp(2rem, 8vw, 8rem);
+  align-items: center;
+  max-width: 1280px;
+  min-height: 72vh;
+  margin: 0 auto;
+  padding: clamp(3rem, 9vw, 8rem) clamp(1.25rem, 5vw, 5rem);
+}
+.book-landing__copy {
+  max-width: 38rem;
+}
+.eyebrow {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  font:
+    600 0.68rem / 1.4 Arial,
+    sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(3.5rem, 9vw, 8.5rem);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.06em;
+}
+.lede {
+  max-width: 28rem;
+  margin: 2rem auto;
+  color: var(--muted);
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.4;
+}
+.button {
+  display: inline-flex;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 0.9rem 1.2rem;
+  color: var(--paper);
+  background: var(--ink);
+  text-decoration: none;
+  text-transform: uppercase;
+  font:
+    600 0.7rem Arial,
+    sans-serif;
+  letter-spacing: 0.1em;
+}
+.button:hover {
+  background: var(--gold);
+}
+.book-card {
+  display: block;
+  text-decoration: none;
+  transition: transform 280ms ease;
+}
+.book-card:hover,
+.book-card:focus-visible {
+  transform: translateY(-0.65rem);
+}
+.book-card.is-transitioning {
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.book-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 0.5rem;
+}
+.book-card__scene {
+  display: block;
+  perspective: 1000px;
+}
+.book-card__book {
+  display: block;
+  position: relative;
+  aspect-ratio: 0.68;
+  transform: rotate(5deg);
+  box-shadow: 1.2rem 1.5rem 2rem rgba(23, 19, 15, 0.2);
+  animation: card-float 5s ease-in-out infinite;
+}
+@keyframes card-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(5deg);
+  }
+  50% {
+    transform: translateY(-0.65rem) rotate(7deg);
+  }
+}
+.book-card__cover,
+.book-card__back {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+.book-card__cover {
+  z-index: 2;
+}
+.book-card__cover img,
+.book-card__back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.book-card__back {
+  transform: translate(7%, 2%) scale(0.98);
+  filter: brightness(0.65);
+}
+.book-card__pages {
+  position: absolute;
+  z-index: 1;
+  inset: 2% -4% 2% 96%;
+  background: #ded5c4;
+}
+.book-card__label {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+}
+.book-card__label small {
+  color: var(--muted);
+  font:
+    0.65rem Arial,
+    sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.book-landing {
+  position: relative;
+  isolation: isolate;
+  min-height: 78vh;
+  color: #f4e6ca;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 38%, rgba(31, 44, 79, 0.42), transparent 42%),
+    linear-gradient(135deg, #03050b 0%, #081125 58%, #03050b 100%);
+}
+.book-landing::before,
+.book-landing::after {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+}
+.book-landing::before {
+  inset: -20%;
+  background:
+    radial-gradient(
+      circle at 62% 46%,
+      rgba(220, 161, 61, 0.2) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 34% 68%,
+      rgba(126, 158, 214, 0.3) 0 1px,
+      transparent 2px
+    );
+  background-size:
+    17rem 15rem,
+    23rem 19rem;
+  opacity: 0.65;
+  transform: rotate(-12deg);
+}
+.book-landing::after {
+  top: 50%;
+  left: 58%;
+  width: min(65vw, 52rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(220, 161, 61, 0.2);
+  border-radius: 50%;
+  box-shadow:
+    0 0 5rem rgba(220, 161, 61, 0.12),
+    inset 0 0 5rem rgba(220, 161, 61, 0.08);
+  transform: translate(-50%, -50%) rotate(24deg) scaleY(0.45);
+}
+.book-landing > * {
+  position: relative;
+  z-index: 1;
+}
+.book-landing__visual img {
+  display: block;
+  width: min(100%, 24rem);
+  margin-bottom: 1.5rem;
+  box-shadow: 1rem 1rem 2rem rgba(23, 19, 15, 0.18);
+}
+.book-landing__copy > p:not(.eyebrow):not(.lede) {
+  max-width: 34rem;
+  line-height: 1.6;
+}
+.note {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border-left: 2px solid var(--gold);
+  color: var(--muted);
+  line-height: 1.5;
+}
+.wormhole-overlay {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #f9e8c5;
+  background:
+    radial-gradient(
+      circle at 18% 27%,
+      rgba(244, 192, 87, 0.9) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 77% 64%,
+      rgba(244, 192, 87, 0.75) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 62% 19%,
+      rgba(255, 231, 177, 0.7) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 34% 78%,
+      rgba(244, 192, 87, 0.65) 0 1px,
+      transparent 2px
+    ),
+    #03050b;
+  background-size:
+    31% 37%,
+    43% 53%,
+    67% 41%,
+    59% 71%,
+    auto;
+  opacity: 0;
+  pointer-events: none;
+}
+.wormhole-overlay.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  animation: wormhole-in 1.25s ease-in forwards;
+}
+.wormhole-overlay__message,
+.wormhole-overlay__skip {
+  position: absolute;
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font:
+    0.68rem Arial,
+    sans-serif;
+}
+.wormhole-overlay__message {
+  bottom: 18%;
+}
+.wormhole-overlay__skip {
+  right: 1.5rem;
+  bottom: 1.5rem;
+  padding: 0.7rem 1rem;
+  color: inherit;
+  border: 1px solid rgba(249, 232, 197, 0.45);
+  background: transparent;
+  cursor: pointer;
+}
+@keyframes wormhole-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .book-card__book {
+    animation: none;
+  }
+}
+@media (max-width: 700px) {
+  .book-landing {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Keep site-wide landing defaults from affecting the upstream immersive demo. */
+body.immersive {
+  min-width: 0;
+  overflow: hidden;
+  color: #f0f0f0;
+  background: #010101 url("/vendor/wormhole-extreme/dist/images/bg.jpg") 50% 50%
+    no-repeat;
+  background-size: cover;
+}
+body.immersive main {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.wormhole-home {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+.wormhole-home__frame {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #010101;
+}
+.title-particles {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+}
+.title-particles canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.title-particles canvas[data-failed="true"],
+.title-particles canvas[data-disabled="true"] {
+  display: none;
+}
+.title-particles__fallback {
+  position: absolute;
+  z-index: 3;
+  top: 46%;
+  left: 50%;
+  width: min(92vw, 110rem);
+  margin: 0;
+  color: #f6e5be;
+  font:
+    700 clamp(3rem, 15vw, 14rem) / 0.85 Georgia,
+    "Times New Roman",
+    serif;
+  letter-spacing: 0.035em;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-wrap: balance;
+}
+.title-particles__fallback[data-visible="false"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .title-particles__fallback[data-visible="false"] {
+    position: absolute;
+    width: min(92vw, 110rem);
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}

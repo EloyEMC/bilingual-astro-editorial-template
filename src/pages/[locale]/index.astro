@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { tempusBook, type Locale } from "../../data/books";
+
+export function getStaticPaths() {
+  return ["es", "en"].map((locale) => ({ params: { locale }, props: { locale: locale as Locale } }));
+}
+
+const { locale } = Astro.props as { locale: Locale };
+const title = tempusBook.content[locale].title;
+const particleTitle = locale === "es" ? "CÓDIGO TEMPUS" : "TEMPUS CODE";
+---
+<BaseLayout title={title} description={tempusBook.content[locale].description} locale={locale} path={locale === "es" ? "/es" : "/en"} immersive>
+  <section class="wormhole-home" aria-label={title}>
+    <iframe
+      class="wormhole-home__frame"
+      data-wormhole-frame
+      src="/vendor/wormhole-extreme/index.html"
+      title="Wormhole Extreme interactive space scene"
+    ></iframe>
+    <div class="title-particles" aria-hidden="true">
+      <canvas data-title-particles data-title={particleTitle}></canvas>
+    </div>
+    <h1 class="title-particles__fallback" data-title-fallback data-title={particleTitle}>{particleTitle}</h1>
+  </section>
+</BaseLayout>
+<script src="../../scripts/title-particles.ts"></script>

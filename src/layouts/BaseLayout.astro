@@ -1,0 +1,30 @@
+---
+import "../styles/global.css";
+import Seo from "../components/Seo.astro";
+import type { Locale } from "../data/books";
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  path: string;
+  image?: string;
+  immersive?: boolean;
+}
+const { title, description, locale, path, image, immersive = false } = Astro.props;
+const alternatePath = locale === "es" ? path.replace(/^\/es/, "/en").replace("/libro/", "/book/").replace("codigo-tempus", "tempus-code") : path.replace(/^\/en/, "/es").replace("/book/", "/libro/").replace("tempus-code", "codigo-tempus");
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <Seo title={title} description={description} path={path} image={image} locale={locale} />
+    <slot name="head" />
+  </head>
+  <body class:list={{ immersive }}>
+    {!immersive && <a class="locale-switch" href={alternatePath} aria-label={locale === "es" ? "Read in English" : "Leer en español"}>
+      {locale === "es" ? "EN" : "ES"}
+    </a>}
+    <main><slot /></main>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import WormholeTransition from "../../../components/WormholeTransition.astro";
+import { tempusBook, type Locale } from "../../../data/books";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "es", section: "libro", slug: "codigo-tempus" }, props: { locale: "es" as Locale } },
+    { params: { locale: "en", section: "book", slug: "tempus-code" }, props: { locale: "en" as Locale } },
+  ];
+}
+const { locale } = Astro.props as { locale: Locale };
+const content = tempusBook.content[locale];
+---
+<BaseLayout title={content.title} description={content.description} locale={locale} path={content.path} image={content.cover}>
+  <section class="book-landing">
+    <div class="book-landing__visual"><img src={content.cover} alt={`${content.title} cover`} /><p class="eyebrow">Sterling Books · 001</p></div>
+    <div class="book-landing__copy">
+      <p class="eyebrow">{locale === "es" ? "Próximamente" : "Coming soon"}</p>
+      <h1>{content.title}</h1>
+      <p class="lede">{content.subtitle}</p>
+      <p>{content.description}</p>
+      <div class="note">{locale === "es" ? "Esta página es una primera presentación editorial. Más detalles estarán disponibles próximamente." : "This page is an early editorial introduction. More details will be available soon."}</div>
+      <p class="purchase-placeholder">{locale === "es" ? "Compra: enlaces de distribución próximamente." : "Purchase: distribution links coming soon."}</p>
+      <a class="button" href={`/${locale}`}>← {locale === "es" ? "Volver al inicio" : "Back home"}</a>
+    </div>
+  </section>
+  <WormholeTransition />
+</BaseLayout>
