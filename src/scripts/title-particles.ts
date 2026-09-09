@@ -247,6 +247,182 @@ async function loadFont() {
   ]);
 }
 
+type TravelEffects = {
+  ready: boolean;
+  start: () => void;
+};
+
+function setupHyperTravel(
+  frame: HTMLIFrameElement | null,
+  effects: TravelEffects,
+) {
+  const destination = frame?.dataset.destination;
+  const cover = frame?.dataset.cover;
+  const cta = frame?.dataset.cta;
+  let travelButton: HTMLButtonElement | null = null;
+  let navigationTimer = 0;
+  let navigating = false;
+  let disposed = false;
+
+  const clearNavigation = () => {
+    if (navigationTimer) window.clearTimeout(navigationTimer);
+    navigationTimer = 0;
+    navigating = false;
+  };
+  const navigate = () => {
+    if (destination) window.location.assign(destination);
+  };
+  const onTravel = () => {
+    if (navigating || !destination) return;
+    navigating = true;
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reducedMotion || !effects.ready) {
+      navigate();
+      return;
+    }
+
+    effects.start();
+    navigationTimer = window.setTimeout(navigate, 2500);
+  };
+  const removeButtonListener = () => {
+    travelButton?.removeEventListener("click", onTravel);
+    travelButton = null;
+  };
+  const bindButton = () => {
+    removeButtonListener();
+    clearNavigation();
+    try {
+      const frameDocument = frame?.contentDocument;
+      if (!frameDocument) return;
+      travelButton =
+        frameDocument.querySelector<HTMLButtonElement>("#hyper-btn") || null;
+      if (!travelButton) return;
+
+      travelButton.classList.remove("icon-rocket", "icon-trim");
+      travelButton.classList.add("tempus-cover-button");
+      travelButton.closest(".content")?.classList.add("tempus-cover-content");
+      if (cta) travelButton.setAttribute("aria-label", cta);
+
+      if (cover) {
+        let coverImage = travelButton.querySelector<HTMLImageElement>(
+          "img[data-tempus-cover]",
+        );
+        if (!coverImage) {
+          coverImage = frameDocument.createElement("img");
+          coverImage.dataset.tempusCover = "";
+          travelButton.prepend(coverImage);
+        }
+        coverImage.src = cover;
+        coverImage.alt = "";
+      }
+
+      if (!frameDocument.querySelector("style[data-tempus-hyper-styles]")) {
+        const style = frameDocument.createElement("style");
+        style.dataset.tempusHyperStyles = "";
+        style.textContent = `
+          .content.tempus-cover-content {
+            top: 68%;
+          }
+
+              .tempus-cover-button {
+                position: relative;
+                width: clamp(72px, 9vw, 112px);
+                margin: 0;
+                padding: 0;
+                overflow: visible;
+                line-height: 0;
+                border: 0;
+                border-radius: 4px;
+                background: transparent;
+                box-shadow:
+                  0 0 0 1px rgba(238, 248, 255, 0.88),
+                  0 0 24px rgba(182, 224, 255, 0.72),
+                  0 12px 32px rgba(0, 0, 0, 0.72);
+                cursor: pointer;
+                transform: scale(1);
+                transform-origin: center;
+                transition: transform 180ms ease;
+              }
+
+          .tempus-cover-button::before {
+            display: none !important;
+            content: none !important;
+          }
+
+          .tempus-cover-button > img[data-tempus-cover] {
+            display: block;
+            width: 100%;
+            max-width: none;
+            height: auto;
+            margin: 0;
+            border-radius: inherit;
+          }
+
+          .tempus-cover-button > span {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+          }
+
+          .tempus-cover-button:hover,
+          .tempus-cover-button:focus-visible {
+            z-index: 1;
+            transform: scale(2);
+          }
+
+          .tempus-cover-button:focus-visible {
+            outline: 3px solid #8fdcff;
+            outline-offset: 4px;
+          }
+
+          @media (max-height: 520px) and (orientation: landscape) {
+            .content.tempus-cover-content {
+              top: 70%;
+              padding-block: 8px;
+            }
+
+            .tempus-cover-button {
+              width: clamp(48px, 16vh, 72px);
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .tempus-cover-button {
+              transition: none;
+            }
+          }
+        `;
+        frameDocument.head.append(style);
+      }
+
+      travelButton.addEventListener("click", onTravel);
+    } catch {
+      travelButton = null;
+    }
+  };
+  const dispose = () => {
+    if (disposed) return;
+    disposed = true;
+    clearNavigation();
+    removeButtonListener();
+    frame?.removeEventListener("load", bindButton);
+  };
+
+  frame?.addEventListener("load", bindButton);
+  window.addEventListener("pagehide", dispose, { once: true });
+  bindButton();
+  return dispose;
+}
+
 function makeTitleSource(title: string, width: number, height: number) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -333,6 +509,8 @@ async function initTitleParticles() {
   const frame = document.querySelector<HTMLIFrameElement>(
     "[data-wormhole-frame]",
   );
+  const travelEffects: TravelEffects = { ready: false, start: () => {} };
+  setupHyperTravel(frame, travelEffects);
   if (!canvas || !fallback) return;
 
   const showFallback = () => {
@@ -394,9 +572,13 @@ async function initTitleParticles() {
   let resizeFrame = 0;
   let disposed = false;
   let frameDocument: Document | null = null;
-  let travelButton: HTMLElement | null = null;
   let targetParticleSize = 1.2;
-  let outro: { startedAt: number; random: number; depth: number; size: number } | null = null;
+  let outro: {
+    startedAt: number;
+    random: number;
+    depth: number;
+    size: number;
+  } | null = null;
   const startedAt = performance.now();
 
   const startDisintegration = () => {
@@ -408,12 +590,11 @@ async function initTitleParticles() {
       size: uniforms.uSize.value,
     };
   };
+  travelEffects.start = startDisintegration;
 
   const removeFrameListeners = () => {
     frameDocument?.removeEventListener("pointermove", relayFramePointer);
     frameDocument?.removeEventListener("pointerleave", clearPointer);
-    travelButton?.removeEventListener("click", startDisintegration);
-    travelButton = null;
     frameDocument = null;
   };
 
@@ -453,8 +634,6 @@ async function initTitleParticles() {
       frameDocument?.addEventListener("pointerleave", clearPointer, {
         passive: true,
       });
-      travelButton = frameDocument?.querySelector<HTMLElement>("#hyper-btn") || null;
-      travelButton?.addEventListener("click", startDisintegration);
     } catch {
       frameDocument = null;
     }
@@ -538,7 +717,11 @@ async function initTitleParticles() {
       const depthIntro = easeOutQuad(Math.min(elapsed / 1.5, 1));
       uniforms.uRandom.value = THREE.MathUtils.lerp(1, 2, intro);
       uniforms.uDepth.value = THREE.MathUtils.lerp(40, 4, depthIntro);
-      uniforms.uSize.value = THREE.MathUtils.lerp(0.5, targetParticleSize, intro);
+      uniforms.uSize.value = THREE.MathUtils.lerp(
+        0.5,
+        targetParticleSize,
+        intro,
+      );
     }
     touchTexture.update();
     renderer.render(scene, camera);
@@ -574,6 +757,7 @@ async function initTitleParticles() {
     bindFrame();
     fallback.dataset.visible = "false";
     animationFrame = requestAnimationFrame(render);
+    travelEffects.ready = true;
   } catch {
     dispose();
     showFallback();

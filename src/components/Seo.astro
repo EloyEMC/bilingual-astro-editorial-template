@@ -1,33 +1,137 @@
 ---
-interface Props {
+import type { BookFaq, Locale } from "../data/books";
+
+export interface BookWorkExample {
+  name: string;
+  bookFormat: "https://schema.org/Hardcover" | "https://schema.org/EBook";
+  url: string;
+  datePublished: string;
+  numberOfPages: number;
+  authors: string[];
+  publisher: string;
+  isbn?: string;
+  asin?: string;
+}
+
+export interface BookSeoData {
+  name: string;
+  language: Locale;
+  authors: string[];
+  datePublished: string;
+  publisher: string;
+  sameAs: string[];
+  workExamples: BookWorkExample[];
+  faqs?: BookFaq[];
+}
+
+export interface Props {
   title: string;
   description: string;
   path: string;
-  locale: "es" | "en";
+  alternatePaths: Record<Locale, string>;
+  locale: Locale;
   image?: string;
+  imageAlt?: string;
+  ogType?: "website" | "book";
+  book?: BookSeoData;
 }
-const { title, description, path, locale, image = "/media/codigo-tempus-cover-en.jpg" } = Astro.props;
-const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://sterlingbooks.example";
+
+const {
+  title,
+  description,
+  path,
+  alternatePaths,
+  locale,
+  image = "/media/codigo-tempus-cover-en.jpg",
+  imageAlt,
+  ogType = "website",
+  book,
+} = Astro.props;
+const siteUrl =
+  Astro.site?.toString().replace(/\/$/, "") ?? "https://sterlingbooks.example";
 const canonical = new URL(path, `${siteUrl}/`).toString();
 const imageUrl = new URL(image, `${siteUrl}/`).toString();
-const spanishPath = path.replace(/^\/en/, "/es").replace("/book/", "/libro/").replace("tempus-code", "codigo-tempus");
-const englishPath = path.replace(/^\/es/, "/en").replace("/libro/", "/book/").replace("codigo-tempus", "tempus-code");
+const alternateUrls = {
+  es: new URL(alternatePaths.es, `${siteUrl}/`).toString(),
+  en: new URL(alternatePaths.en, `${siteUrl}/`).toString(),
+};
+const bookNode = book
+  ? {
+      "@type": "Book",
+      name: book.name,
+      description,
+      image: imageUrl,
+      url: canonical,
+      inLanguage: book.language,
+      author: book.authors.map((name) => ({ "@type": "Person", name })),
+      datePublished: book.datePublished,
+      publisher: { "@type": "Organization", name: book.publisher },
+      sameAs: book.sameAs,
+      workExample: book.workExamples.map(({ asin, authors, publisher, ...edition }) => ({
+        "@type": "Book",
+        ...edition,
+        inLanguage: book.language,
+        author: authors.map((name) => ({ "@type": "Person", name })),
+        publisher: { "@type": "Organization", name: publisher },
+        ...(asin
+          ? {
+              identifier: {
+                "@type": "PropertyValue",
+                propertyID: "ASIN",
+                value: asin,
+              },
+            }
+          : {}),
+      })),
+    }
+  : null;
+const jsonLd = bookNode
+  ? book?.faqs?.length
+    ? {
+        "@context": "https://schema.org",
+        "@graph": [
+          bookNode,
+          {
+            "@type": "FAQPage",
+            mainEntity: book.faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: { "@type": "Answer", text: faq.answer },
+            })),
+          },
+        ],
+      }
+    : { "@context": "https://schema.org", ...bookNode }
+  : null;
 ---
 <title>{title} — Sterling Books</title>
 <meta name="description" content={description} />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:site_name" content="Sterling Books" />
 <meta property="og:title" content={`${title} — Sterling Books`} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={imageUrl} />
+{imageAlt && <meta property="og:image:alt" content={imageAlt} />}
 <meta property="og:locale" content={locale === "es" ? "es_ES" : "en_US"} />
+<meta
+  property="og:locale:alternate"
+  content={locale === "es" ? "en_US" : "es_ES"}
+/>
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={`${title} — Sterling Books`} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
+{imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
 <link rel="canonical" href={canonical} />
-<link rel="alternate" hreflang="es" href={`${siteUrl}${spanishPath}`} />
-<link rel="alternate" hreflang="en" href={`${siteUrl}${englishPath}`} />
-<link rel="alternate" hreflang="x-default" href={`${siteUrl}${englishPath}`} />
+<link rel="alternate" hreflang="es" href={alternateUrls.es} />
+<link rel="alternate" hreflang="en" href={alternateUrls.en} />
+<link rel="alternate" hreflang="x-default" href={alternateUrls.en} />
+{jsonLd && (
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(jsonLd)}
+  />
+)}
