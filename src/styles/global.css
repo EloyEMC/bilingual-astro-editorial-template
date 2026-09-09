@@ -616,29 +616,43 @@ body.immersive main {
   height: 3.5rem;
   min-width: 44px;
   min-height: 44px;
-  border: 1px solid rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.82);
   border-radius: 50%;
-  background: rgba(3, 5, 11, 0.88);
-  box-shadow: 0 0 1.5rem rgba(255, 255, 255, 0.18);
+  background: transparent;
+  box-shadow:
+    0 0 0.25rem rgba(255, 255, 255, 0.2),
+    0 0.2rem 0.65rem rgba(0, 0, 0, 0.58);
   isolation: isolate;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
 }
 .book-landing__tap-trigger::before {
   position: absolute;
   z-index: -1;
   inset: -0.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.46);
   border-radius: inherit;
   content: "";
-  animation: book-tap-pulse 2.4s ease-out infinite;
+  animation: book-tap-pulse 3.6s ease-out infinite;
 }
 .book-landing__tap-trigger img {
   width: 2.375rem;
   height: 2.375rem;
   margin: 0;
+  filter:
+    drop-shadow(0 1px 1px rgba(0, 0, 0, 0.9))
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
   box-shadow: none;
 }
-.book-landing__tap-trigger:hover {
-  background: rgba(125, 91, 32, 0.9);
+.book-landing__tap-trigger:hover,
+.book-landing__tap-trigger:focus-visible,
+.book-landing__tap-trigger:active {
+  border-color: #fff;
+  background: transparent;
+  box-shadow:
+    0 0 0.4rem rgba(255, 255, 255, 0.32),
+    0 0.2rem 0.75rem rgba(0, 0, 0, 0.68);
 }
 .book-landing__tap-trigger:focus-visible {
   outline: 3px solid #fff;
@@ -647,13 +661,18 @@ body.immersive main {
 
 @keyframes book-tap-pulse {
   0%,
-  58% {
-    opacity: 0.35;
-    transform: scale(0.94);
+  12% {
+    opacity: 0;
+    transform: scale(0.98);
   }
+  18% {
+    opacity: 0.58;
+    transform: scale(1.01);
+  }
+  30%,
   100% {
     opacity: 0;
-    transform: scale(1.22);
+    transform: scale(1.06);
   }
 }
 
@@ -879,6 +898,9 @@ body.immersive main {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .book-landing__tap-trigger {
+    transition: none;
+  }
   .book-landing__tap-trigger::before {
     animation: none;
     opacity: 0.45;
