@@ -29,7 +29,7 @@ export function mountWormholeSpace(): void {
   const loader = new THREE.TextureLoader();
   const load = (name: string) => loader.load(`${ASSETS}${name}`);
 
-  const nebulaTexture = load("wormhole-water.jpg");
+  const nebulaTexture = load("wormhole-water.webp");
   nebulaTexture.wrapS = nebulaTexture.wrapT = THREE.RepeatWrapping;
   nebulaTexture.repeat.set(3, 8);
   const nebula = new THREE.Mesh(
@@ -44,7 +44,7 @@ export function mountWormholeSpace(): void {
   scene.add(nebulaLight);
 
   const stars = new THREE.Group();
-  const starMaterial = new THREE.PointsMaterial({ map: load("wormhole-star.png"), size: 9, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  const starMaterial = new THREE.PointsMaterial({ map: load("wormhole-star.webp"), size: 9, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
   const positions = new Float32Array(600 * 3);
   const colors = new Float32Array(600 * 3);
   const palette = [new THREE.Color(0x8eb5ff), new THREE.Color(0xffd39a), new THREE.Color(0xffffff), new THREE.Color(0xa98cff)];
@@ -63,7 +63,7 @@ export function mountWormholeSpace(): void {
   scene.add(stars);
 
   const planets = new THREE.Group();
-  const planetCandidates = ["wormhole-planet1.jpg", "wormhole-planet2.jpg", "wormhole-planet3.jpg", "wormhole-planet4.jpg", "wormhole-planet5.jpg"];
+  const planetCandidates = ["wormhole-planet1.webp", "wormhole-planet2.webp", "wormhole-planet3.webp", "wormhole-planet4.webp", "wormhole-planet5.webp"];
   [[-360, 130, -650, 105], [400, -150, -1250, 145]].forEach(([x, y, z, radius], index) => {
     const planet = new THREE.Mesh(new THREE.SphereGeometry(radius, 40, 28), new THREE.MeshPhongMaterial({ map: load(planetCandidates[index]), shininess: 12 }));
     planet.position.set(x, y, z);
