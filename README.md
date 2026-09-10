@@ -10,4 +10,4 @@ The root route redirects visitors to the Spanish homepage at `/es/`. Astro gener
 
 ## Site URL
 
-The current placeholder site URL is [`https://sterlingbooks.example`](https://sterlingbooks.example), used for canonical and social metadata during development. Before publishing, set the future `PUBLIC_SITE_URL` value (or configure the production custom domain) to the real public origin and update the Astro site configuration accordingly. Keep the `/es/` and `/en/` locale structure when mapping a custom domain.
+The public site URL is [`https://thetempuscode.com`](https://thetempuscode.com), used as the canonical origin for site metadata and generated URLs. Keep the `/es/` and `/en/` locale structure when linking to localized pages.

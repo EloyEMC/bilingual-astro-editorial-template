@@ -47,9 +47,8 @@ const {
   ogType = "website",
   book,
 } = Astro.props;
-const siteUrl =
-      Astro.site?.toString().replace(/\/$/, "") ??
-      "https://proyecto-sterling-web.pages.dev";
+if (!Astro.site) throw new Error("Astro.site is required to generate SEO metadata");
+const siteUrl = Astro.site.toString().replace(/\/$/, "");
     const withTrailingSlash = (value: string) =>
       value.endsWith("/") ? value : `${value}/`;
     const canonical = new URL(withTrailingSlash(path), `${siteUrl}/`).toString();
