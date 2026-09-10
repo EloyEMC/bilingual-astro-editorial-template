@@ -35,6 +35,17 @@ const alternatePaths = {
   es: page.locale === "es" ? page.path : alternatePage.path,
   en: page.locale === "en" ? page.path : alternatePage.path,
 };
+const copy = page.locale === "es"
+  ? {
+      backHome: "Volver al inicio",
+      breadcrumb: "Navegación del documento legal",
+      identity: "CÓDIGO TEMPUS / STERLING BOOKS",
+    }
+  : {
+      backHome: "Back to home",
+      breadcrumb: "Legal document navigation",
+      identity: "THE TEMPUS CODE / STERLING BOOKS",
+    };
 ---
 
 <BaseLayout
@@ -43,14 +54,24 @@ const alternatePaths = {
   locale={page.locale}
   path={page.path}
   alternatePaths={alternatePaths}
-  showLocaleSwitch={false}
+  showLocaleSwitch
 >
   <meta slot="head" name="robots" content="noindex, nofollow" />
 
   <article class="legal-page" aria-labelledby="legal-page-title">
-    <header>
-      <p class="legal-page__status" role="status">{page.status}</p>
+    <header class="legal-page__header">
+      <nav class="legal-page__breadcrumb" aria-label={copy.breadcrumb}>
+        <a href={`/${page.locale}/`}>
+          <span aria-hidden="true">←</span>
+          {copy.backHome}
+        </a>
+        <span class="legal-page__breadcrumb-separator" aria-hidden="true">/</span>
+        <span aria-current="page">{page.title}</span>
+      </nav>
+
+      <p class="legal-page__eyebrow">{copy.identity}</p>
       <h1 id="legal-page-title">{page.title}</h1>
+      <p class="legal-page__status" role="status">{page.status}</p>
     </header>
 
     <div class="legal-page__content">
