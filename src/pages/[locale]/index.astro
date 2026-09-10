@@ -40,7 +40,7 @@ const alternatePaths = { es: "/es/", en: "/en/" };
     <iframe
       class="wormhole-home__frame"
       data-wormhole-frame
-      src="/vendor/wormhole-extreme/index.html"
+      src={`/wormhole-home.html?locale=${locale}`}
       title={locale === "es" ? "Escena espacial interactiva" : "Interactive space scene"}
     ></iframe>
     <a

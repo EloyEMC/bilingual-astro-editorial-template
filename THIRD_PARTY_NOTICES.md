@@ -8,7 +8,7 @@ The complete upstream repository payload is vendored byte-for-byte (excluding `.
 
 - `public/vendor/wormhole-extreme/`
 
-The localized Astro routes `/es` and `/en` redirect to the vendored `index.html`, preserving its original relative asset paths and runtime. Upstream snapshot: commit `26c1ba80bdcdc9565249e21555174c989aa633c4`.
+The localized Astro routes `/es` and `/en` embed the project-owned `/wormhole-home.html` shell. That shell reuses the upstream DOM structure and loads the vendored stylesheet, font assets, scene images, and JavaScript from `public/vendor/wormhole-extreme/` through absolute `/vendor/wormhole-extreme/...` paths. It replaces only the visible GitHub Fork control with a project-owned localized legal-document link; it does not claim ownership of the vendored code or assets. Upstream snapshot: commit `26c1ba80bdcdc9565249e21555174c989aa633c4`.
 
 The vendored `dist/js/bundle.min.js` has one Sterling integration adaptation: its render loop continues when the iframe document is not focused, so the initial scene animates before the user clicks the background. All scene objects, assets, controls, and Hyper Travel behavior remain upstream.
 
