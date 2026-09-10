@@ -229,14 +229,31 @@ function easeInQuad(value: number) {
   return value * value;
 }
 
+const HOME_SUPPRESSION_MARKER = "data-tempus-home-suppression";
+
+function ensureHomeSuppressionStyle(frameDocument: Document) {
+  if (
+    frameDocument.readyState === "loading" ||
+    frameDocument.querySelector(`style[${HOME_SUPPRESSION_MARKER}]`)
+  ) {
+    return;
+  }
+
+  const style = frameDocument.createElement("style");
+  style.setAttribute(HOME_SUPPRESSION_MARKER, "");
+  style.textContent = `
+    .content > h1,
+    .content > p,
+    #hyper-btn {
+      display: none !important;
+    }
+  `;
+  (frameDocument.head || frameDocument.documentElement).append(style);
+}
+
 function hideUpstreamTitle(frame: HTMLIFrameElement | null) {
   const frameDocument = frame?.contentDocument;
-  frameDocument
-    ?.querySelector<HTMLElement>(".content > h1")
-    ?.setAttribute("hidden", "true");
-  frameDocument
-    ?.querySelector<HTMLElement>(".content > p")
-    ?.setAttribute("hidden", "true");
+  if (frameDocument) ensureHomeSuppressionStyle(frameDocument);
 }
 
 async function loadFont() {
@@ -254,157 +271,77 @@ type TravelEffects = {
 
 function setupHyperTravel(
   frame: HTMLIFrameElement | null,
+  link: HTMLAnchorElement | null,
   effects: TravelEffects,
 ) {
-  const destination = frame?.dataset.destination;
-  const cover = frame?.dataset.cover;
-  const cta = frame?.dataset.cta;
   let travelButton: HTMLButtonElement | null = null;
   let navigationTimer = 0;
+  let bindingRetryDocument: Document | null = null;
   let navigating = false;
   let disposed = false;
 
   const clearNavigation = () => {
     if (navigationTimer) window.clearTimeout(navigationTimer);
     navigationTimer = 0;
-    navigating = false;
   };
   const navigate = () => {
-    if (destination) window.location.assign(destination);
+    if (link) window.location.assign(link.href);
   };
-  const onTravel = () => {
-    if (navigating || !destination) return;
+  const onTravel = (event: MouseEvent) => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    if (navigating || !link) return;
     navigating = true;
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    if (reducedMotion || !effects.ready) {
+    if (reducedMotion || !effects.ready || !travelButton) {
       navigate();
       return;
     }
 
-    effects.start();
-    navigationTimer = window.setTimeout(navigate, 2500);
+    try {
+      travelButton.click();
+      effects.start();
+      navigationTimer = window.setTimeout(navigate, 2500);
+    } catch {
+      navigate();
+    }
   };
-  const removeButtonListener = () => {
-    travelButton?.removeEventListener("click", onTravel);
-    travelButton = null;
+  const cancelBindingRetry = () => {
+    bindingRetryDocument?.removeEventListener("readystatechange", bindButton);
+    bindingRetryDocument = null;
   };
   const bindButton = () => {
-    removeButtonListener();
-    clearNavigation();
+    cancelBindingRetry();
+    if (disposed) return;
+
     try {
       const frameDocument = frame?.contentDocument;
       if (!frameDocument) return;
+
+      if (frameDocument.readyState === "loading") {
+        bindingRetryDocument = frameDocument;
+        bindingRetryDocument.addEventListener("readystatechange", bindButton, {
+          once: true,
+        });
+        return;
+      }
+
+      ensureHomeSuppressionStyle(frameDocument);
       travelButton =
         frameDocument.querySelector<HTMLButtonElement>("#hyper-btn") || null;
-      if (!travelButton) return;
-
-      travelButton.classList.remove("icon-rocket", "icon-trim");
-      travelButton.classList.add("tempus-cover-button");
-      travelButton.closest(".content")?.classList.add("tempus-cover-content");
-      if (cta) travelButton.setAttribute("aria-label", cta);
-
-      if (cover) {
-        let coverImage = travelButton.querySelector<HTMLImageElement>(
-          "img[data-tempus-cover]",
-        );
-        if (!coverImage) {
-          coverImage = frameDocument.createElement("img");
-          coverImage.dataset.tempusCover = "";
-          travelButton.prepend(coverImage);
-        }
-        coverImage.src = cover;
-        coverImage.alt = "";
-      }
-
-      if (!frameDocument.querySelector("style[data-tempus-hyper-styles]")) {
-        const style = frameDocument.createElement("style");
-        style.dataset.tempusHyperStyles = "";
-        style.textContent = `
-          .content.tempus-cover-content {
-            top: 68%;
-          }
-
-              .tempus-cover-button {
-                position: relative;
-                width: clamp(72px, 9vw, 112px);
-                margin: 0;
-                padding: 0;
-                overflow: visible;
-                line-height: 0;
-                border: 0;
-                border-radius: 4px;
-                background: transparent;
-                box-shadow:
-                  0 0 0 1px rgba(238, 248, 255, 0.88),
-                  0 0 24px rgba(182, 224, 255, 0.72),
-                  0 12px 32px rgba(0, 0, 0, 0.72);
-                cursor: pointer;
-                transform: scale(1);
-                transform-origin: center;
-                transition: transform 180ms ease;
-              }
-
-          .tempus-cover-button::before {
-            display: none !important;
-            content: none !important;
-          }
-
-          .tempus-cover-button > img[data-tempus-cover] {
-            display: block;
-            width: 100%;
-            max-width: none;
-            height: auto;
-            margin: 0;
-            border-radius: inherit;
-          }
-
-          .tempus-cover-button > span {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-          }
-
-          .tempus-cover-button:hover,
-          .tempus-cover-button:focus-visible {
-            z-index: 1;
-            transform: scale(2);
-          }
-
-          .tempus-cover-button:focus-visible {
-            outline: 3px solid #8fdcff;
-            outline-offset: 4px;
-          }
-
-          @media (max-height: 520px) and (orientation: landscape) {
-            .content.tempus-cover-content {
-              top: 70%;
-              padding-block: 8px;
-            }
-
-            .tempus-cover-button {
-              width: clamp(48px, 16vh, 72px);
-            }
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .tempus-cover-button {
-              transition: none;
-            }
-          }
-        `;
-        frameDocument.head.append(style);
-      }
-
-      travelButton.addEventListener("click", onTravel);
     } catch {
       travelButton = null;
     }
@@ -413,10 +350,12 @@ function setupHyperTravel(
     if (disposed) return;
     disposed = true;
     clearNavigation();
-    removeButtonListener();
+    cancelBindingRetry();
+    link?.removeEventListener("click", onTravel);
     frame?.removeEventListener("load", bindButton);
   };
 
+  link?.addEventListener("click", onTravel);
   frame?.addEventListener("load", bindButton);
   window.addEventListener("pagehide", dispose, { once: true });
   bindButton();
@@ -509,8 +448,11 @@ async function initTitleParticles() {
   const frame = document.querySelector<HTMLIFrameElement>(
     "[data-wormhole-frame]",
   );
+  const travelLink = document.querySelector<HTMLAnchorElement>(
+    "[data-hyper-travel]",
+  );
   const travelEffects: TravelEffects = { ready: false, start: () => {} };
-  setupHyperTravel(frame, travelEffects);
+  setupHyperTravel(frame, travelLink, travelEffects);
   if (!canvas || !fallback) return;
 
   const showFallback = () => {
