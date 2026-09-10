@@ -110,7 +110,7 @@ export const tempusBook: Book = {
       description:
         "El manuscrito perdido que plantea una pregunta radical: ¿y si el pasado siguiera vivo en nuestro ADN, nuestra memoria y nuestra conciencia?",
       cta: "Entrar en Código Tempus",
-      path: "/es/libro/codigo-tempus",
+      path: "/es/libro/codigo-tempus/",
       cover: "/media/codigo-tempus-cover-es.webp",
       coverAlt: "Cubierta de Código Tempus",
       caseImage: "/media/codigo-tempus-case-es.webp",
@@ -226,7 +226,7 @@ export const tempusBook: Book = {
       description:
         "The lost manuscript that poses a radical question: what if the past were still alive in our DNA, our memory, and our consciousness?",
       cta: "Enter Tempus Code",
-      path: "/en/book/tempus-code",
+      path: "/en/book/tempus-code/",
       cover: "/media/codigo-tempus-cover-en.webp",
       coverAlt: "Tempus Code book cover",
       caseImage: "/media/codigo-tempus-case-en.webp",

@@ -48,61 +48,110 @@ const {
   book,
 } = Astro.props;
 const siteUrl =
-  Astro.site?.toString().replace(/\/$/, "") ?? "https://sterlingbooks.example";
-const canonical = new URL(path, `${siteUrl}/`).toString();
-const imageUrl = new URL(image, `${siteUrl}/`).toString();
-const alternateUrls = {
-  es: new URL(alternatePaths.es, `${siteUrl}/`).toString(),
-  en: new URL(alternatePaths.en, `${siteUrl}/`).toString(),
-};
-const bookNode = book
-  ? {
-      "@type": "Book",
-      name: book.name,
-      description,
-      image: imageUrl,
-      url: canonical,
-      inLanguage: book.language,
-      author: book.authors.map((name) => ({ "@type": "Person", name })),
-      datePublished: book.datePublished,
-      publisher: { "@type": "Organization", name: book.publisher },
-      sameAs: book.sameAs,
-      workExample: book.workExamples.map(({ asin, authors, publisher, ...edition }) => ({
-        "@type": "Book",
-        ...edition,
-        inLanguage: book.language,
-        author: authors.map((name) => ({ "@type": "Person", name })),
-        publisher: { "@type": "Organization", name: publisher },
-        ...(asin
-          ? {
-              identifier: {
-                "@type": "PropertyValue",
-                propertyID: "ASIN",
-                value: asin,
-              },
-            }
-          : {}),
-      })),
-    }
-  : null;
-const jsonLd = bookNode
-  ? book?.faqs?.length
-    ? {
-        "@context": "https://schema.org",
-        "@graph": [
-          bookNode,
-          {
-            "@type": "FAQPage",
-            mainEntity: book.faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: { "@type": "Answer", text: faq.answer },
-            })),
-          },
-        ],
-      }
-    : { "@context": "https://schema.org", ...bookNode }
-  : null;
+      Astro.site?.toString().replace(/\/$/, "") ??
+      "https://proyecto-sterling-web.pages.dev";
+    const withTrailingSlash = (value: string) =>
+      value.endsWith("/") ? value : `${value}/`;
+    const canonical = new URL(withTrailingSlash(path), `${siteUrl}/`).toString();
+    const imageUrl = new URL(image, `${siteUrl}/`).toString();
+    const alternateUrls = {
+      es: new URL(withTrailingSlash(alternatePaths.es), `${siteUrl}/`).toString(),
+      en: new URL(withTrailingSlash(alternatePaths.en), `${siteUrl}/`).toString(),
+    };
+    const homeUrl = new URL(`/${locale}/`, `${siteUrl}/`).toString();
+    const pageId = `${canonical}#webpage`;
+    const bookId = `${canonical}#book`;
+    const faqId = `${canonical}#faq`;
+    const breadcrumbId = `${canonical}#breadcrumb`;
+    const faqs = book?.faqs;
+    const bookNode = book
+      ? {
+          "@type": "Book",
+          "@id": bookId,
+          name: book.name,
+          description,
+          image: imageUrl,
+          url: canonical,
+          inLanguage: book.language,
+          mainEntityOfPage: { "@id": pageId },
+          ...(faqs?.length ? { subjectOf: { "@id": faqId } } : {}),
+          author: book.authors.map((name) => ({ "@type": "Person", name })),
+          datePublished: book.datePublished,
+          publisher: { "@type": "Organization", name: book.publisher },
+          sameAs: book.sameAs,
+          workExample: book.workExamples.map(
+            ({ asin, authors, publisher, ...edition }, index) => ({
+              "@type": "Book",
+              "@id": `${canonical}#edition-${index + 1}`,
+              ...edition,
+              inLanguage: book.language,
+              author: authors.map((name) => ({ "@type": "Person", name })),
+              publisher: { "@type": "Organization", name: publisher },
+              ...(asin
+                ? {
+                    identifier: {
+                      "@type": "PropertyValue",
+                      propertyID: "ASIN",
+                      value: asin,
+                    },
+                  }
+                : {}),
+            }),
+          ),
+        }
+      : null;
+    const jsonLd = bookNode
+      ? {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": pageId,
+              url: canonical,
+              name: title,
+              description,
+              inLanguage: locale,
+              breadcrumb: { "@id": breadcrumbId },
+              mainEntity: { "@id": bookId },
+            },
+            bookNode,
+            {
+              "@type": "BreadcrumbList",
+              "@id": breadcrumbId,
+              inLanguage: locale,
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: locale === "es" ? "Inicio" : "Home",
+                  item: { "@id": homeUrl },
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: title,
+                  item: { "@id": canonical },
+                },
+              ],
+            },
+            ...(faqs?.length
+              ? [
+                  {
+                    "@type": "FAQPage",
+                    "@id": faqId,
+                    isPartOf: { "@id": pageId },
+                    inLanguage: locale,
+                    mainEntity: faqs.map((faq) => ({
+                      "@type": "Question",
+                      name: faq.question,
+                      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+                    })),
+                  },
+                ]
+              : []),
+          ],
+        }
+      : null;
 ---
 <title>{title} — Sterling Books</title>
 <meta name="description" content={description} />
@@ -130,7 +179,7 @@ const jsonLd = bookNode
 <link rel="canonical" href={canonical} />
 <link rel="alternate" hreflang="es" href={alternateUrls.es} />
 <link rel="alternate" hreflang="en" href={alternateUrls.en} />
-<link rel="alternate" hreflang="x-default" href={alternateUrls.en} />
+<link rel="alternate" hreflang="x-default" href={alternateUrls.es} />
 {jsonLd && (
   <script
     type="application/ld+json"

@@ -51,13 +51,15 @@ const alternateLocale: Locale = locale === "es" ? "en" : "es";
   </head>
   <body class:list={{ immersive }}>
     {showLocaleSwitch && (
-      <a
-    class="locale-switch"
-    href={alternatePaths[alternateLocale]}
-    aria-label={locale === "es" ? "Read in English" : "Leer en español"}
-      >
-    {locale === "es" ? "EN" : "ES"}
-      </a>
+          <a
+            class="locale-switch"
+            href={alternatePaths[alternateLocale]}
+            lang={alternateLocale}
+            hreflang={alternateLocale}
+            aria-label={locale === "es" ? "Leer en inglés" : "Read in Spanish"}
+          >
+            {locale === "es" ? "EN" : "ES"}
+          </a>
     )}
     <main><slot /></main>
   </body>

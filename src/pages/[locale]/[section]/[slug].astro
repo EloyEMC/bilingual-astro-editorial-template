@@ -75,7 +75,7 @@ const authors = locale === "es"
       class="book-landing__frame"
       data-book-wormhole-frame
       src="/vendor/wormhole-extreme/index.html"
-      title="Wormhole Extreme space scene"
+      title={locale === "es" ? "Escena espacial" : "Space scene"}
       aria-hidden="true"
       tabindex="-1"
     ></iframe>
@@ -90,7 +90,12 @@ const authors = locale === "es"
           aria-controls={dossierId}
           aria-label={dossier.openCoverLabel}
         >
-          <img src={content.cover} alt={content.coverAlt} />
+          <img
+            src={content.cover}
+            alt={content.coverAlt}
+            width="1200"
+            height="1800"
+          />
         </a>
         <a
           class="book-landing__tap-trigger"
@@ -100,11 +105,30 @@ const authors = locale === "es"
           aria-controls={dossierId}
           aria-label={dossier.openControlLabel}
         >
-          <img src="/media/tap.svg" alt="" aria-hidden="true" />
+          <img
+            src="/media/tap.svg"
+            alt=""
+            aria-hidden="true"
+            width="64"
+            height="64"
+          />
         </a>
       </div>
 
       <div class="book-landing__copy">
+        <nav
+          class="book-landing__breadcrumb"
+          aria-label={locale === "es" ? "Ruta de navegación" : "Breadcrumb"}
+        >
+          <ol>
+            <li>
+              <a href={`/${locale}/`}>
+                {locale === "es" ? "Inicio" : "Home"}
+              </a>
+            </li>
+            <li aria-current="page">{content.title}</li>
+          </ol>
+        </nav>
         <p class="book-landing__collection">
           {tempusBook.collection} <span aria-hidden="true">·</span> {tempusBook.number}
         </p>
@@ -122,7 +146,7 @@ const authors = locale === "es"
           <a href={content.amazonUrl} target="_blank" rel="noopener noreferrer">Amazon</a>
           <a href={content.appleBooksUrl} target="_blank" rel="noopener noreferrer">Apple Books</a>
         </div>
-        <a class="book-landing__back" href={`/${locale}`}>
+        <a class="book-landing__back" href={`/${locale}/`}>
           <span aria-hidden="true">←</span> {content.backHome}
         </a>
       </div>
@@ -213,4 +237,32 @@ const authors = locale === "es"
     </dialog>
   </div>
 </BaseLayout>
-<script src="../../../scripts/book-landing.ts"></script>
+    <script src="../../../scripts/book-landing.ts"></script>
+
+    <style>
+      .book-landing__breadcrumb {
+        margin-bottom: 0.65rem;
+        color: rgba(244, 230, 202, 0.72);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+      }
+
+      .book-landing__breadcrumb ol {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .book-landing__breadcrumb li + li::before {
+        margin-right: 0.4rem;
+        content: "/";
+      }
+
+      .book-landing__breadcrumb a:hover,
+      .book-landing__breadcrumb a:focus-visible {
+        color: #d9b56d;
+      }
+    </style>
