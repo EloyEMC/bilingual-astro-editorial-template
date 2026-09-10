@@ -40,12 +40,15 @@ const copy = page.locale === "es"
       backHome: "Volver al inicio",
       breadcrumb: "Navegación del documento legal",
       identity: "CÓDIGO TEMPUS / STERLING BOOKS",
+      resetConsent: "Restablecer consentimiento de cookies",
     }
   : {
       backHome: "Back to home",
       breadcrumb: "Legal document navigation",
       identity: "THE TEMPUS CODE / STERLING BOOKS",
+      resetConsent: "Reset cookie consent",
     };
+const isCookiePolicy = page.slug === "cookies";
 ---
 
 <BaseLayout
@@ -86,6 +89,19 @@ const copy = page.locale === "es"
           )}
         </section>
       ))}
+      {isCookiePolicy && (
+        <section class="legal-page__consent-control">
+          <h2>{copy.resetConsent}</h2>
+          <p>
+            {page.locale === "es"
+              ? "Al restablecer la preferencia, el aviso volverá a mostrarse y podrás elegir de nuevo."
+              : "Resetting your preference shows the notice again so you can choose again."}
+          </p>
+          <button type="button" data-cookie-consent-reset>
+            {copy.resetConsent}
+          </button>
+        </section>
+      )}
     </div>
   </article>
 </BaseLayout>

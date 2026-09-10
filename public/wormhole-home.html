@@ -13,14 +13,29 @@
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link type="text/css" rel="stylesheet" href="/vendor/wormhole-extreme/dist/css/bundle.min.css" />
     <style>
-        .wormhole-legal-link .wormhole-legal-icon {
+        .icon-amazon:before,
+        .icon-apple:before {
+            font-family: Arial, sans-serif !important;
+            font-weight: 700 !important;
+            margin-right: 10px !important;
+        }
+
+        .icon-amazon:before {
+            content: "a";
+            font-size: 1.15em;
+        }
+
+        .wormhole-legal-icon {
             display: inline-block;
             width: 1em;
             height: 1em;
             vertical-align: middle;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.75;
+            fill: currentColor;
+        }
+
+        .icon-apple:before {
+            content: "";
+            font-size: 1.1em;
         }
     </style>
 </head>
@@ -45,9 +60,9 @@
 
     <div class="share center animated zoomInUp" style="display: none">
         <a class="btn icon-twitter icon-trim" data-share="twitter" href="#"><span>Tweet</span></a> &nbsp;
-        <a class="btn icon-facebook icon-trim" data-share="facebook"  href="#"><span>Share</span></a> &nbsp;
-        <a class="btn icon-reddit icon-trim" data-share="reddit"  href="#"><span>Post</span></a> &nbsp;
-        <a class="btn wormhole-legal-link" href="/es/legal/aviso-legal/" target="_top" aria-label="Aviso legal" title="Aviso legal"><svg class="wormhole-legal-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 3.5h7l4 4v13h-11z"/><path d="M13.5 3.5v4h4M9 12h6M9 16h6"/></svg><span id="wormhole-legal-label">Aviso legal</span></a>
+        <a class="btn icon-amazon icon-trim" data-retailer="amazon" href="https://www.amazon.es/" target="_top" rel="noopener noreferrer" aria-label="Amazon" title="Amazon"><span id="wormhole-amazon-label">Amazon</span></a> &nbsp;
+        <a class="btn icon-apple icon-trim" data-retailer="apple" href="https://books.apple.com/" target="_top" rel="noopener noreferrer" aria-label="Apple Books" title="Apple Books"><span id="wormhole-apple-label">Apple Books</span></a> &nbsp;
+        <a class="btn wormhole-legal-link icon-trim" data-retailer="legal" href="/es/legal/aviso-legal/" target="_top" rel="noopener noreferrer" aria-label="Aviso legal" title="Aviso legal"><svg class="wormhole-legal-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><mask id="legal-document-cutouts"><rect width="24" height="24" fill="white"/><path d="M13 3v5h5M8.5 11h7M8.5 14.5h7M8.5 18h5" fill="black" stroke="black" stroke-width="1.2"/></mask><path d="M5 2h9l5 5v15H5V2z" mask="url(#legal-document-cutouts)"/></svg><span id="wormhole-legal-label">Aviso legal</span></a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r75/three.min.js"></script>
@@ -56,19 +71,35 @@
     <script src="/vendor/wormhole-extreme/dist/js/app.js"></script>
     <script>
         (function () {
-            var locale = new URLSearchParams(window.location.search).get("locale") === "en" ? "en" : "es";
-            var legalLink = document.querySelector(".wormhole-legal-link");
-            var legalLabel = document.getElementById("wormhole-legal-label");
-            var labels = {
-                es: { href: "/es/legal/aviso-legal/", label: "Aviso legal" },
-                en: { href: "/en/legal/legal-notice/", label: "Legal notice" }
+            var params = new URLSearchParams(window.location.search);
+            var locale = params.get("locale") === "en" ? "en" : "es";
+            var retailerLabels = locale === "en"
+                ? { amazon: "Amazon", legal: "Legal notice", apple: "Apple Books" }
+                : { amazon: "Amazon", legal: "Aviso legal", apple: "Apple Books" };
+            var legalPaths = {
+                es: "/es/legal/aviso-legal/",
+                en: "/en/legal/legal-notice/"
             };
-            var legal = labels[locale];
+            var links = {
+                amazon: document.querySelector('[data-retailer="amazon"]'),
+                legal: document.querySelector('[data-retailer="legal"]'),
+                apple: document.querySelector('[data-retailer="apple"]')
+            };
+            var urls = {
+                amazon: params.get("amazon") || "https://www.amazon.es/",
+                legal: legalPaths[locale],
+                apple: params.get("apple") || "https://books.apple.com/"
+            };
 
-            legalLink.href = legal.href;
-            legalLink.setAttribute("aria-label", legal.label);
-            legalLink.title = legal.label;
-            legalLabel.textContent = legal.label;
+            Object.keys(links).forEach(function (retailer) {
+                var link = links[retailer];
+                if (!link) return;
+                var label = retailerLabels[retailer];
+                link.href = urls[retailer];
+                link.setAttribute("aria-label", label);
+                link.title = label;
+                link.querySelector("span[id]").textContent = label;
+            });
         })();
     </script>
 

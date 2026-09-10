@@ -74,7 +74,7 @@ const authors = locale === "es"
     <iframe
       class="book-landing__frame"
       data-book-wormhole-frame
-      src={`/wormhole-home.html?locale=${locale}`}
+      src={`/wormhole-home.html?locale=${locale}&amazon=${encodeURIComponent(content.amazonUrl)}&apple=${encodeURIComponent(content.appleBooksUrl)}`}
       title={locale === "es" ? "Escena espacial" : "Space scene"}
       aria-hidden="true"
       tabindex="-1"

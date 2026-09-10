@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import CookieConsent from "../components/CookieConsent.astro";
 import Seo, { type BookSeoData } from "../components/Seo.astro";
 import type { Locale } from "../data/books";
 
@@ -36,13 +37,6 @@ const alternateLocale: Locale = locale === "es" ? "en" : "es";
 <html lang={locale}>
   <head>
     <meta charset="UTF-8" />
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-V1LH71HG1E"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { window.dataLayer.push(arguments); }
-      gtag("js", new Date());
-      gtag("config", "G-V1LH71HG1E");
-    </script>
     <Seo
       title={title}
       description={description}
@@ -69,5 +63,6 @@ const alternateLocale: Locale = locale === "es" ? "en" : "es";
           </a>
     )}
     <main><slot /></main>
+    <CookieConsent locale={locale} />
   </body>
 </html>
