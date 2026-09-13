@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/preview.svg" alt="Preview of the bilingual editorial landing page" width="900" />
+  <img src="docs/screenshots/home-particles.png" alt="Immersive home screen with a particle title and floating book cover" width="900" />
 </p>
 
 ## What the template does
