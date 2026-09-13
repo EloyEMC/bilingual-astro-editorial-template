@@ -33,6 +33,12 @@
             font-size: 1.15em;
         }
 
+        /* The upstream demo enables its FPS counter after initialization. Keep it hidden in production. */
+        .stats,
+        .stats.active {
+            display: none !important;
+        }
+
         .wormhole-legal-icon {
             display: inline-block;
             width: 1em;
