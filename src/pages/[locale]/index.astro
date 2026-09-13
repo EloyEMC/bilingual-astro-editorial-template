@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { tempusBook, type Locale } from "../../data/books";
+import { exampleBook, type Locale } from "../../data/books";
 
 export function getStaticPaths() {
   return ["es", "en"].map((locale) => ({
@@ -10,19 +10,19 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.props as { locale: Locale };
-const content = tempusBook.content[locale];
+const content = exampleBook.content[locale];
 const homeSeo = locale === "es"
   ? {
-      title: "Universo Sterling: entrada interactiva",
+      title: "Entrada interactiva de ejemplo",
       description:
-        "Entra en el universo Sterling a través de una experiencia interactiva y descubre Código Tempus.",
+        "Explorá una experiencia interactiva de ejemplo para tu publicación bilingüe.",
     }
   : {
-      title: "The Sterling Universe: interactive entry",
+      title: "Example interactive entry",
       description:
-        "Enter the Sterling universe through an interactive experience and discover Tempus Code.",
+        "Explore a generic interactive experience for your bilingual publication.",
     };
-const particleTitle = locale === "es" ? "CÓDIGO TEMPUS" : "TEMPUS CODE";
+const particleTitle = locale === "es" ? "EJEMPLO" : "EXAMPLE";
 const alternatePaths = { es: "/es/", en: "/en/" };
 ---
 <BaseLayout

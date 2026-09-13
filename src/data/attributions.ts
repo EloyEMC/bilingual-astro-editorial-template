@@ -63,12 +63,12 @@ export const attributionDocuments: AttributionDocument[] = [
     path: "/es/atribuciones/",
     title: "Atribuciones de terceros",
     description:
-      "Reconocimientos de software y materiales de terceros bajo licencia MIT utilizados por Sterling Books.",
+      "Reconocimientos de software y materiales de terceros bajo licencia MIT utilizados por esta plantilla.",
     status: "Avisos de terceros",
-    identity: "CÓDIGO TEMPUS / STERLING BOOKS",
+    identity: "EXAMPLE TEMPLATE",
     introduction: [
       "Esta página identifica el software y los materiales de terceros utilizados en este sitio. Cada obra conserva la titularidad y las condiciones de licencia de sus autores o titulares respectivos.",
-      "Sterling Books no reclama la titularidad del código ni de los recursos upstream aquí atribuidos.",
+      "This template does not claim ownership del código ni de los recursos upstream aquí atribuidos.",
     ],
     adaptations: {
       heading: "Material upstream e integración propia",
@@ -125,12 +125,12 @@ export const attributionDocuments: AttributionDocument[] = [
     path: "/en/attributions/",
     title: "Third-party attributions",
     description:
-      "Attributions for MIT-licensed third-party software and materials used by Sterling Books.",
+      "Attributions for MIT-licensed third-party software and materials used by this template.",
     status: "Third-party notices",
-    identity: "THE TEMPUS CODE / STERLING BOOKS",
+    identity: "EXAMPLE TEMPLATE",
     introduction: [
       "This page identifies third-party software and materials used on this site. Each work remains subject to the ownership and licence terms of its respective authors or rightsholders.",
-      "Sterling Books does not claim ownership of the upstream code or assets attributed here.",
+      "This template does not claim ownership of the upstream code or assets attributed here.",
     ],
     adaptations: {
       heading: "Upstream material and project-owned integration",

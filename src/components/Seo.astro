@@ -42,7 +42,7 @@ const {
   path,
   alternatePaths,
   locale,
-  image = "/media/codigo-tempus-cover-en.webp",
+  image = "/media/template-cover-en.svg",
   imageAlt,
   ogType = "website",
   book,
@@ -152,12 +152,12 @@ const siteUrl = Astro.site.toString().replace(/\/$/, "");
         }
       : null;
 ---
-<title>{title} — Sterling Books</title>
+<title>{title} — Example Astro Template</title>
 <meta name="description" content={description} />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta property="og:type" content={ogType} />
-<meta property="og:site_name" content="Sterling Books" />
-<meta property="og:title" content={`${title} — Sterling Books`} />
+<meta property="og:site_name" content="Example Astro Template" />
+<meta property="og:title" content={`${title} - Example Astro Template`} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={imageUrl} />
@@ -171,7 +171,7 @@ const siteUrl = Astro.site.toString().replace(/\/$/, "");
   content={locale === "es" ? "en_US" : "es_ES"}
 />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={`${title} — Sterling Books`} />
+<meta name="twitter:title" content={`${title} - Example Astro Template`} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
 {imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}

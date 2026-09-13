@@ -4,7 +4,6 @@ export interface BookLink {
   label: string;
   url: string;
 }
-
 export interface BookFaq {
   question: string;
   answer: string;
@@ -65,7 +64,6 @@ export interface BookDossier {
   faqHeading: string;
   faqs: BookFaq[];
 }
-
 export interface BookContent {
   locale: Locale;
   title: string;
@@ -83,7 +81,6 @@ export interface BookContent {
   backHome: string;
   dossier: BookDossier;
 }
-
 export interface Book {
   id: string;
   collection: string;
@@ -91,251 +88,198 @@ export interface Book {
   content: Record<Locale, BookContent>;
 }
 
-const foundationUrls = {
-  about: "https://arthurvaleriussterling.org/about",
-  chronology: "https://arthurvaleriussterling.org/chronology",
-  works: "https://arthurvaleriussterling.org/works",
-  fictionNotice: "https://arthurvaleriussterling.org/fiction-notice",
-} as const;
-
-export const tempusBook: Book = {
-  id: "tempus",
-  collection: "Sterling Books",
-  number: "001",
-  content: {
-    es: {
-      locale: "es",
-      title: "Código Tempus",
-      subtitle: "Una teoría para atravesar el tiempo con otros ojos.",
-      description:
-        "El manuscrito perdido que plantea una pregunta radical: ¿y si el pasado siguiera vivo en nuestro ADN, nuestra memoria y nuestra conciencia?",
-      cta: "Entrar en Código Tempus",
-      path: "/es/libro/codigo-tempus/",
-      cover: "/media/codigo-tempus-cover-es.webp",
-      coverAlt: "Cubierta de Código Tempus",
-      caseImage: "/media/codigo-tempus-case-es.webp",
-      language: "Español",
-      availability: "Disponible",
-      amazonUrl: "https://www.amazon.es/dp/B0HJ5RVRTS",
-      appleBooksUrl:
-        "https://books.apple.com/us/book/c%C3%B3digo-tempus/id6809938054",
-      backHome: "Volver al inicio",
-      dossier: {
-        fullTitle:
-          "CÓDIGO TEMPUS: La Revolución Bio-Genética del Viaje en el Tiempo",
-        openCoverLabel: "Abrir el dossier completo de Código Tempus",
-        openControlLabel:
-          "Tocar para abrir el dossier completo de Código Tempus",
-        closeLabel: "Cerrar el dossier de Código Tempus",
-        heading: "Dossier de la obra",
-        synopsisHeading: "El manuscrito y su propuesta",
+const exampleLinks = [
+  { label: "Example project", url: "https://example.com/" },
+];
+const makeDossier = (locale: Locale): BookDossier =>
+  locale === "es"
+    ? {
+        fullTitle: "TÍTULO DE EJEMPLO: Una obra demostrativa",
+        openCoverLabel: "Abrir el dossier de ejemplo",
+        openControlLabel: "Tocar para abrir el dossier de ejemplo",
+        closeLabel: "Cerrar el dossier",
+        heading: "Dossier de ejemplo",
+        synopsisHeading: "La obra",
         synopsis: [
-          "Presentado como un manuscrito perdido o recuperado, CÓDIGO TEMPUS es un ensayo de teoría especulativa, no una novela. Reúne notas científicas y reflexiones personales alrededor de una pregunta: ¿podrían la biología, la memoria y la conciencia cambiar nuestra forma de pensar el tiempo?",
-          "La obra explora, como hipótesis y preguntas abiertas, relaciones entre física, biología, genética y ADN, relatividad, entropía, causalidad, agujeros de gusano y paradojas temporales. También considera la herencia epigenética, la memoria inmunológica, los procesos cuánticos y los estados alterados de conciencia sin presentarlos como ciencia establecida.",
+          "Este texto es un ejemplo genérico para mostrar la estructura de una página editorial.",
+          "Reemplazá este contenido con la información de tu propia publicación antes de desplegar el sitio.",
         ],
-        topicsHeading: "Temas explorados",
-        topics: [
-          "Física, relatividad, entropía y causalidad",
-          "Biología, genética y ADN",
-          "Memoria, conciencia y estados alterados de conciencia",
-          "Agujeros de gusano y paradojas temporales",
-          "Herencia epigenética y memoria inmunológica",
-          "Procesos cuánticos",
-        ],
-        editionsHeading: "Ediciones y formatos verificados",
-        amazonHeading: "Amazon",
+        topicsHeading: "Temas",
+        topics: ["Tema de ejemplo", "Otra idea", "Preguntas abiertas"],
+        editionsHeading: "Ediciones y formatos",
+        amazonHeading: "Formato impreso",
         amazonFormatsLabel: "Formatos disponibles",
         amazonFormats: ["Tapa dura", "Tapa blanda", "Ebook"],
-        hardcoverHeading: "Edición de tapa dura en Amazon",
-        appleHeading: "Ebook en Apple Books",
+        hardcoverHeading: "Ficha de ejemplo",
+        appleHeading: "Edición digital",
         factsLabels: {
           author: "Autor",
           byline: "Firma",
           publisher: "Editorial",
-          publicationDate: "Fecha de publicación",
-          availabilityDate: "Disponible",
+          publicationDate: "Fecha",
+          availabilityDate: "Disponibilidad",
           language: "Idioma",
-          pages: "Extensión",
+          pages: "Páginas",
           isbn13: "ISBN-13",
-          asin: "ASIN",
+          asin: "Identificador",
           format: "Formato",
           seller: "Vendedor",
         },
         amazonHardcover: {
-          byline: "Dr Arthur Valerius Sterling y Eloy Martínez Cuesta",
-          publisher: "Independently published",
-          publicationDate: "6 de septiembre de 2026",
+          byline: "Nombre del autor de ejemplo",
+          publisher: "Editorial de ejemplo",
+          publicationDate: "Fecha de ejemplo",
           language: "Español",
-          pages: "264 páginas",
-          isbn13: "979-8172250552",
-          asin: "B0HJ5RVRTS",
+          pages: "000 páginas",
+          isbn13: "000-0-00000-000-0",
+          asin: "EJEMPLO-000",
         },
         appleEbook: {
-          author: "DR Arthur Valerius Sterling",
-          publisher: "Dr Arthur Valerius Sterling",
-          availabilityDate: "10 de septiembre de 2026",
+          author: "Nombre del autor de ejemplo",
+          publisher: "Editorial de ejemplo",
+          availabilityDate: "Fecha de ejemplo",
           language: "Español",
-          pages: "258 páginas",
+          pages: "000 páginas",
           format: "Ebook",
-          seller: "Eloy Martinez Cuesta",
+          seller: "Vendedor de ejemplo",
         },
-        retailerLinksLabel: "Plataformas del libro",
-        foundationHeading: "Contexto de la Fundación",
+        retailerLinksLabel: "Enlaces de ejemplo",
+        foundationHeading: "Contexto del proyecto",
         foundationIntroduction:
-          "La Fundación Arthur Valerius Sterling señala que Sterling se retiró en 1988 y que después trabajó en CÓDIGO TEMPUS en Bétera. Describe un manuscrito inacabado que une notas científicas y reflexiones personales.",
-        foundationLinksLabel:
-          "Fuentes de la Fundación Arthur Valerius Sterling",
-        foundationLinks: [
-          {
-            label: "Sobre Arthur Valerius Sterling",
-            url: foundationUrls.about,
-          },
-          { label: "Cronología", url: foundationUrls.chronology },
-          { label: "Obras", url: foundationUrls.works },
-          { label: "Aviso sobre ficción", url: foundationUrls.fictionNotice },
-        ],
+          "Añadí aquí contexto editorial, enlaces y fuentes propios de tu proyecto.",
+        foundationLinksLabel: "Fuentes de ejemplo",
+        foundationLinks: exampleLinks,
         faqHeading: "Preguntas frecuentes",
         faqs: [
           {
-            question: "¿Qué es CÓDIGO TEMPUS?",
+            question: "¿Qué muestra esta página?",
             answer:
-              "Es un ensayo de teoría especulativa presentado como un manuscrito perdido o recuperado, compuesto por notas científicas y reflexiones personales.",
+              "Una ficha editorial reutilizable con datos de ejemplo claramente marcados.",
           },
           {
-            question: "¿Es una novela?",
+            question: "¿Puedo reutilizar la estructura?",
             answer:
-              "No. La obra se presenta como teoría y ensayo especulativo, no como novela.",
-          },
-          {
-            question: "¿Qué temas explora?",
-            answer:
-              "Explora preguntas sobre física, biología, genética y ADN, memoria, conciencia, relatividad, entropía, causalidad, agujeros de gusano, paradojas temporales, herencia epigenética, memoria inmunológica, procesos cuánticos y estados alterados de conciencia.",
-          },
-          {
-            question: "¿En qué formatos y plataformas está disponible?",
-            answer:
-              "Amazon ofrece tapa dura, tapa blanda y ebook. Apple Books ofrece una edición ebook.",
+              "Sí, reemplazá todos los datos de ejemplo por contenido con derechos y datos verificados.",
           },
         ],
-      },
-    },
-    en: {
-      locale: "en",
-      title: "Tempus Code",
-      subtitle: "A theory that invites you to see time through different eyes.",
-      description:
-        "The lost manuscript that poses a radical question: what if the past were still alive in our DNA, our memory, and our consciousness?",
-      cta: "Enter Tempus Code",
-      path: "/en/book/tempus-code/",
-      cover: "/media/codigo-tempus-cover-en.webp",
-      coverAlt: "Tempus Code book cover",
-      caseImage: "/media/codigo-tempus-case-en.webp",
-      language: "English",
-      availability: "Available",
-      amazonUrl: "https://www.amazon.es/dp/B0HJ82BD56",
-      appleBooksUrl: "https://books.apple.com/us/book/tempus-code/id6809932289",
-      backHome: "Back home",
-      dossier: {
-        fullTitle: "TEMPUS CODE: The Bio-Genetic Revolution of Time Travel",
-        openCoverLabel: "Open the complete Tempus Code dossier",
-        openControlLabel: "Tap to open the complete Tempus Code dossier",
-        closeLabel: "Close the Tempus Code dossier",
-        heading: "Book dossier",
-        synopsisHeading: "The manuscript and its proposal",
+      }
+    : {
+        fullTitle: "EXAMPLE TITLE: A Demonstration Work",
+        openCoverLabel: "Open the example dossier",
+        openControlLabel: "Tap to open the example dossier",
+        closeLabel: "Close the dossier",
+        heading: "Example dossier",
+        synopsisHeading: "The work",
         synopsis: [
-          "Presented as a lost or recovered manuscript, TEMPUS CODE is an essay in speculative theory, not a novel. It brings scientific notes and personal reflections together around a question: could biology, memory, and consciousness change how we think about time?",
-          "The work explores, as hypotheses and open questions, connections among physics, biology, genetics and DNA, relativity, entropy, causality, wormholes, and temporal paradoxes. It also considers epigenetic inheritance, immunological memory, quantum processes, and altered states of consciousness without presenting them as established science.",
+          "This is generic example copy showing the structure of an editorial page.",
+          "Replace this content with details for your own publication before deployment.",
         ],
-        topicsHeading: "Subjects explored",
-        topics: [
-          "Physics, relativity, entropy, and causality",
-          "Biology, genetics, and DNA",
-          "Memory, consciousness, and altered states of consciousness",
-          "Wormholes and temporal paradoxes",
-          "Epigenetic inheritance and immunological memory",
-          "Quantum processes",
-        ],
-        editionsHeading: "Verified editions and formats",
-        amazonHeading: "Amazon",
+        topicsHeading: "Topics",
+        topics: ["Example topic", "Another idea", "Open questions"],
+        editionsHeading: "Editions and formats",
+        amazonHeading: "Print format",
         amazonFormatsLabel: "Available formats",
         amazonFormats: ["Hardcover", "Paperback", "Ebook"],
-        hardcoverHeading: "Amazon hardcover edition",
-        appleHeading: "Apple Books ebook",
+        hardcoverHeading: "Example record",
+        appleHeading: "Digital edition",
         factsLabels: {
           author: "Author",
           byline: "Byline",
           publisher: "Publisher",
-          publicationDate: "Publication date",
-          availabilityDate: "Available",
+          publicationDate: "Date",
+          availabilityDate: "Availability",
           language: "Language",
-          pages: "Length",
+          pages: "Pages",
           isbn13: "ISBN-13",
-          asin: "ASIN",
+          asin: "Identifier",
           format: "Format",
           seller: "Seller",
         },
         amazonHardcover: {
-          byline: "Dr Arthur Valerius Sterling",
-          publisher: "Independently published",
-          publicationDate: "6 September 2026",
+          byline: "Example Author Name",
+          publisher: "Example Publisher",
+          publicationDate: "Example date",
           language: "English",
-          pages: "257 pages",
-          isbn13: "979-8172380785",
-          asin: "B0HJ82BD56",
+          pages: "000 pages",
+          isbn13: "000-0-00000-000-0",
+          asin: "EXAMPLE-000",
         },
         appleEbook: {
-          author: "DR Arthur Valerius Sterling",
-          publisher: "DR Arthur Valerius Sterling",
-          availabilityDate: "10 September 2026",
+          author: "Example Author Name",
+          publisher: "Example Publisher",
+          availabilityDate: "Example date",
           language: "English",
-          pages: "259 pages",
+          pages: "000 pages",
           format: "Ebook",
-          seller: "Eloy Martinez Cuesta",
+          seller: "Example seller",
         },
-        retailerLinksLabel: "Book platforms",
-        foundationHeading: "Foundation context",
+        retailerLinksLabel: "Example links",
+        foundationHeading: "Project context",
         foundationIntroduction:
-          "The Arthur Valerius Sterling Foundation says Sterling retired in 1988 and later worked on CÓDIGO TEMPUS in Bétera. It describes an unfinished manuscript joining scientific notes and personal reflections.",
-        foundationLinksLabel: "Arthur Valerius Sterling Foundation sources",
-        foundationLinks: [
-          {
-            label: "About Arthur Valerius Sterling",
-            url: foundationUrls.about,
-          },
-          { label: "Chronology", url: foundationUrls.chronology },
-          { label: "Works", url: foundationUrls.works },
-          { label: "Fiction notice", url: foundationUrls.fictionNotice },
-        ],
+          "Add editorial context, links, and sources for your own project here.",
+        foundationLinksLabel: "Example sources",
+        foundationLinks: exampleLinks,
         faqHeading: "Frequently asked questions",
         faqs: [
           {
-            question: "What is TEMPUS CODE?",
+            question: "What does this page show?",
             answer:
-              "It is an essay in speculative theory presented as a lost or recovered manuscript made up of scientific notes and personal reflections.",
+              "A reusable editorial record with clearly marked example data.",
           },
           {
-            question: "Is it a novel?",
+            question: "Can I reuse the structure?",
             answer:
-              "No. The work is presented as speculative theory and essay, not as a novel.",
-          },
-          {
-            question: "What subjects does it explore?",
-            answer:
-              "It explores questions about physics, biology, genetics and DNA, memory, consciousness, relativity, entropy, causality, wormholes, temporal paradoxes, epigenetic inheritance, immunological memory, quantum processes, and altered states of consciousness.",
-          },
-          {
-            question: "Which formats and platforms are available?",
-            answer:
-              "Amazon offers hardcover, paperback, and ebook formats. Apple Books offers an ebook edition.",
+              "Yes, replace all example data with content and rights information verified for your project.",
           },
         ],
-      },
-    },
-  },
+      };
+
+const content = (locale: Locale): BookContent =>
+  locale === "es"
+    ? {
+        locale,
+        title: "Título de ejemplo",
+        subtitle: "Una experiencia editorial reutilizable.",
+        description:
+          "Plantilla bilingüe de Astro con datos genéricos para mostrar una publicación de ejemplo.",
+        cta: "Ver el ejemplo",
+        path: "/es/libro/titulo-de-ejemplo/",
+        cover: "/media/template-cover-es.svg",
+        coverAlt: "Cubierta genérica de ejemplo",
+        caseImage: "/media/template-cover-es.svg",
+        language: "Español",
+        availability: "Ejemplo",
+        amazonUrl: "https://example.com/",
+        appleBooksUrl: "https://example.com/",
+        backHome: "Volver al inicio",
+        dossier: makeDossier(locale),
+      }
+    : {
+        locale,
+        title: "Example Title",
+        subtitle: "A reusable editorial experience.",
+        description:
+          "Bilingual Astro template data using generic content for a sample publication.",
+        cta: "View the example",
+        path: "/en/book/example-title/",
+        cover: "/media/template-cover-en.svg",
+        coverAlt: "Generic example cover",
+        caseImage: "/media/template-cover-en.svg",
+        language: "English",
+        availability: "Example",
+        amazonUrl: "https://example.com/",
+        appleBooksUrl: "https://example.com/",
+        backHome: "Back home",
+        dossier: makeDossier(locale),
+      };
+
+export const exampleBook: Book = {
+  id: "example",
+  collection: "Example Collection",
+  number: "001",
+  content: { es: content("es"), en: content("en") },
 };
-
-export const books: Book[] = [tempusBook];
-
+export const books: Book[] = [exampleBook];
 export const localeLabels = { es: "ES", en: "EN" } as const satisfies Record<
   Locale,
   string

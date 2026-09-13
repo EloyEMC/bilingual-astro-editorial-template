@@ -1,31 +1,29 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { tempusBook, type Locale } from "../../../data/books";
+import { exampleBook, type Locale } from "../../../data/books";
 
 export function getStaticPaths() {
   return [
     {
-      params: { locale: "es", section: "libro", slug: "codigo-tempus" },
+      params: { locale: "es", section: "libro", slug: "titulo-de-ejemplo" },
       props: { locale: "es" as Locale },
     },
     {
-      params: { locale: "en", section: "book", slug: "tempus-code" },
+      params: { locale: "en", section: "book", slug: "example-title" },
       props: { locale: "en" as Locale },
     },
   ];
 }
 
 const { locale } = Astro.props as { locale: Locale };
-const content = tempusBook.content[locale];
+const content = exampleBook.content[locale];
 const dossier = content.dossier;
 const alternatePaths = {
-  es: tempusBook.content.es.path,
-  en: tempusBook.content.en.path,
+es: exampleBook.content.es.path,
+  en: exampleBook.content.en.path,
 };
 const dossierId = `book-dossier-${locale}`;
-const authors = locale === "es"
-  ? ["Dr Arthur Valerius Sterling", "Eloy Martínez Cuesta"]
-  : ["Dr Arthur Valerius Sterling"];
+const authors = ["Example Author"];
 ---
 <BaseLayout
   title={content.title}
@@ -131,7 +129,7 @@ const authors = locale === "es"
           </ol>
         </nav>
         <p class="book-landing__collection">
-          {tempusBook.collection} <span aria-hidden="true">·</span> {tempusBook.number}
+          {exampleBook.collection} <span aria-hidden="true">·</span> {exampleBook.number}
         </p>
         <p class="book-landing__availability">{content.availability}</p>
         <h1 id="book-title">{content.title}</h1>
