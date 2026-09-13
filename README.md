@@ -47,13 +47,23 @@ The detail route then turns the same visual language into a readable editorial p
 
 ## See it in action
 
-The production site [`thetempuscode.com`](https://thetempuscode.com) is the visual reference that inspired this template. It is an example only; this repository contains generic content and artwork.
+The production site [`thetempuscode.com`](https://thetempuscode.com) is the live demo of the experience this template is designed to produce. The repository keeps generic example data so you can replace the branding, copy, and artwork with your own project.
 
-### Gallery
+### Screenshots from the live demo
 
 <p align="center">
-  <img src="docs/book-preview.svg" alt="Preview of the editorial book detail page" width="900" />
+  <img src="docs/screenshots/home-particles.png" alt="Immersive home screen with a particle title and floating book cover" width="900" />
 </p>
+
+<p align="center">
+  <img src="docs/screenshots/home-wormhole.png" alt="Immersive home screen during the animated wormhole transition" width="900" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/book-dossier.png" alt="Editorial book dossier modal over the space scene" width="900" />
+</p>
+
+Additional generic previews are available in [`docs/preview.svg`](docs/preview.svg) and [`docs/book-preview.svg`](docs/book-preview.svg).
 
 ## Quick start
 
