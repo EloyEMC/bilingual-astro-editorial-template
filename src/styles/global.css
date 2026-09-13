@@ -884,7 +884,8 @@ body.book-page main {
     background: rgba(3, 5, 11, 0.68);
   }
   .book-landing__cover-trigger img {
-    width: min(44vw, 10rem);
+    width: min(58vw, 15rem);
+    height: auto;
     max-height: none;
   }
   .book-landing__subtitle {
