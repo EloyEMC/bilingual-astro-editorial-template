@@ -20,7 +20,8 @@ function initBookLanding() {
         const style = frameDocument.createElement("style");
         style.dataset.bookLandingCleanup = "";
         style.textContent = `
-          .container.content {
+          .container.content,
+          .stats {
             display: none !important;
             visibility: hidden !important;
           }

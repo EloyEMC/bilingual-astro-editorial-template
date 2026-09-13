@@ -338,9 +338,14 @@ h1 {
 }
 
 /* Keep site-wide landing defaults from affecting the upstream immersive demo. */
+html.immersive,
+body.immersive {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 body.immersive {
   min-width: 0;
-  overflow: hidden;
   color: #f0f0f0;
   background: #010101 url("/vendor/wormhole-extreme/dist/images/bg.jpg") 50% 50%
     no-repeat;
@@ -348,7 +353,7 @@ body.immersive {
 }
 body.immersive main {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100dvh;
   overflow: hidden;
 }
@@ -608,8 +613,8 @@ body.immersive main {
 
 .book-landing__tap-trigger {
   position: absolute;
-  right: -0.75rem;
-  bottom: -0.75rem;
+  top: 50%;
+  left: 50%;
   display: grid;
   place-items: center;
   width: 3.5rem;
@@ -623,6 +628,7 @@ body.immersive main {
     0 0 0.25rem rgba(255, 255, 255, 0.2),
     0 0.2rem 0.65rem rgba(0, 0, 0, 0.58);
   isolation: isolate;
+  transform: translate(-50%, -50%);
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease;
@@ -640,8 +646,7 @@ body.immersive main {
   width: 2.375rem;
   height: 2.375rem;
   margin: 0;
-  filter:
-    drop-shadow(0 1px 1px rgba(0, 0, 0, 0.9))
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.9))
     drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
   box-shadow: none;
 }
@@ -870,10 +875,6 @@ body.immersive main {
   }
   .book-landing__copy {
     max-width: none;
-  }
-  .book-landing__tap-trigger {
-    right: max(0.25rem, env(safe-area-inset-right));
-    bottom: -1rem;
   }
   .book-dossier {
     width: calc(100vw - 1rem);
