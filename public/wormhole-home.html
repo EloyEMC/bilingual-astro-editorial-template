@@ -70,7 +70,8 @@
         <a class="btn icon-twitter icon-trim" data-share="twitter" href="#"><span>Tweet</span></a> &nbsp;
         <a class="btn icon-amazon icon-trim" data-retailer="amazon" href="https://www.amazon.es/" target="_top" rel="noopener noreferrer" aria-label="Amazon" title="Amazon"><span id="wormhole-amazon-label">Amazon</span></a> &nbsp;
         <a class="btn icon-apple icon-trim" data-retailer="apple" href="https://books.apple.com/" target="_top" rel="noopener noreferrer" aria-label="Apple Books" title="Apple Books"><span id="wormhole-apple-label">Apple Books</span></a> &nbsp;
-        <a class="btn wormhole-legal-link icon-trim" data-retailer="legal" href="/es/legal/aviso-legal/" target="_top" rel="noopener noreferrer" aria-label="Aviso legal" title="Aviso legal"><svg class="wormhole-legal-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><mask id="legal-document-cutouts"><rect width="24" height="24" fill="white"/><path d="M13 3v5h5M8.5 11h7M8.5 14.5h7M8.5 18h5" fill="black" stroke="black" stroke-width="1.2"/></mask><path d="M5 2h9l5 5v15H5V2z" mask="url(#legal-document-cutouts)"/></svg><span id="wormhole-legal-label">Aviso legal</span></a>
+        <a class="btn wormhole-legal-link icon-trim" data-retailer="legal" href="/es/legal/aviso-legal/" target="_top" rel="noopener noreferrer" aria-label="Aviso legal" title="Aviso legal"><svg class="wormhole-legal-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><mask id="legal-document-cutouts"><rect width="24" height="24" fill="white"/><path d="M13 3v5h5M8.5 11h7M8.5 14.5h7M8.5 18h5" fill="black" stroke="black" stroke-width="1.2"/></mask><path d="M5 2h9l5 5v15H5V2z" mask="url(#legal-document-cutouts)"/></svg><span id="wormhole-legal-label">Aviso legal</span></a> &nbsp;
+        <a class="btn wormhole-attribution-link icon-github icon-trim" data-retailer="attribution" href="/es/atribuciones/" target="_top" rel="noopener noreferrer" aria-label="Atribuciones" title="Atribuciones"><span id="wormhole-attribution-label">Atribuciones</span></a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r75/three.min.js"></script>
@@ -82,20 +83,26 @@
             var params = new URLSearchParams(window.location.search);
             var locale = params.get("locale") === "en" ? "en" : "es";
             var retailerLabels = locale === "en"
-                ? { amazon: "Amazon", legal: "Legal notice", apple: "Apple Books" }
-                : { amazon: "Amazon", legal: "Aviso legal", apple: "Apple Books" };
+                ? { amazon: "Amazon", legal: "Legal notice", attribution: "Attributions", apple: "Apple Books" }
+                : { amazon: "Amazon", legal: "Aviso legal", attribution: "Atribuciones", apple: "Apple Books" };
             var legalPaths = {
                 es: "/es/legal/aviso-legal/",
                 en: "/en/legal/legal-notice/"
             };
+            var attributionPaths = {
+                es: "/es/atribuciones/",
+                en: "/en/attributions/"
+            };
             var links = {
                 amazon: document.querySelector('[data-retailer="amazon"]'),
                 legal: document.querySelector('[data-retailer="legal"]'),
+                attribution: document.querySelector('[data-retailer="attribution"]'),
                 apple: document.querySelector('[data-retailer="apple"]')
             };
             var urls = {
                 amazon: params.get("amazon") || "https://www.amazon.es/",
                 legal: legalPaths[locale],
+                attribution: attributionPaths[locale],
                 apple: params.get("apple") || "https://books.apple.com/"
             };
 
