@@ -306,14 +306,17 @@ function setupHyperTravel(
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    if (reducedMotion || !effects.ready || !travelButton) {
+    if (reducedMotion) {
       navigate();
       return;
     }
 
     try {
-      travelButton.click();
-      effects.start();
+      // The iframe animation and the particle outro are independent. Do not
+      // skip the iframe animation just because WebGL particles are still
+      // initializing on the parent page.
+      travelButton?.click();
+      if (effects.ready) effects.start();
       navigationTimer = window.setTimeout(navigate, 2500);
     } catch {
       navigate();
