@@ -65,6 +65,10 @@ The production site [`thetempuscode.com`](https://thetempuscode.com) is the live
 
 Additional generic previews are available in [`docs/preview.svg`](docs/preview.svg) and [`docs/book-preview.svg`](docs/book-preview.svg).
 
+### Video demo
+
+https://github.com/user-attachments/assets/765aeb47-39e8-40aa-8a9f-25b78a8e60ce
+
 ## Quick start
 
 ```bash
