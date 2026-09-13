@@ -16,17 +16,33 @@
   <img src="docs/preview.svg" alt="Preview of the bilingual editorial landing page" width="900" />
 </p>
 
-## What this is
+## What the template does
 
-A public-safe starter for an immersive editorial site.
+This is a **bilingual Astro starter for cinematic editorial websites**: book launches, author portfolios, creative studios, and narrative projects. It generates a fast static site with no CMS, database, or runtime API required.
 
-**Keywords:** Astro template · bilingual website · editorial design · book website · portfolio starter · Three.js · WebGL · static site · i18n · responsive landing page It gives you a polished foundation without locking you into a CMS or runtime backend:
+The template gives you the page structure and visual system; you replace the example data, artwork, links, and legal copy with your own project.
+
+**Keywords:** Astro template · bilingual website · editorial design · book website · portfolio starter · Three.js · WebGL · static site · i18n · responsive landing page
+
+### What visitors see
+
+The homepage is designed as an immersive entry point:
+
+1. A full-screen dark space scene provides the visual background.
+2. A large particle-based title appears over the scene and reacts to pointer movement.
+3. A floating cover or project image acts as the primary entry point.
+4. The lower action row provides localized purchase, legal, and attribution links.
+5. The language switcher lets visitors move between `/es/` and `/en/` without losing context.
+
+The detail route then turns the same visual language into a readable editorial page with a cover, title, description, calls to action, metadata, and responsive layout. On reduced-motion or unsupported-WebGL devices, semantic text and static fallbacks remain available.
+
+### Included capabilities
 
 - localized `/es/` and `/en/` routes;
 - static Astro generation with canonical and alternate-language metadata;
 - book or project landing pages with responsive layouts;
 - immersive WebGL background and particle-title effects;
-- generic legal, cookie, and third-party attribution pages;
+- localized legal, cookie, and third-party attribution pages;
 - accessible navigation, focus states, reduced-motion support, and responsive fallbacks.
 
 ## See it in action
