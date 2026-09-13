@@ -1,16 +1,85 @@
-# Bilingual Astro editorial template
+# Bilingual Astro Editorial Template
 
-A public-safe, reusable Astro template for an immersive editorial landing page. It preserves the `/es/` and `/en/` route shape, shared layouts, localized data, interactive effects, and static generation while using clearly marked generic example content.
+<p align="center">
+  <strong>A cinematic, bilingual landing page for books, portfolios, and editorial projects.</strong><br />
+  Astro · TypeScript · Static output · Spanish / English
+</p>
 
-## Use it
+<p align="center">
+  <a href="https://github.com/EloyEMC/bilingual-astro-editorial-template/actions"><img src="https://img.shields.io/github/actions/workflow/status/EloyEMC/bilingual-astro-editorial-template/ci.yml?label=build&logo=github" alt="Build status" /></a>
+  <a href="https://astro.build"><img src="https://img.shields.io/badge/Astro-7.x-ff5d01?logo=astro&logoColor=white" alt="Astro 7" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2f855a" alt="MIT license" /></a>
+  <a href="https://github.com/EloyEMC/bilingual-astro-editorial-template/stargazers"><img src="https://img.shields.io/github/stars/EloyEMC/bilingual-astro-editorial-template?style=flat&logo=github" alt="GitHub stars" /></a>
+</p>
 
-1. Replace the example content in `src/data/books.ts` and legal copy in `src/data/legal.ts`.
-2. Replace the template artwork in `public/media/template-cover-*.svg` with assets you have permission to publish.
-3. Set the `site` value in `astro.config.mjs` to your own deployment origin.
-4. Review third-party notices before publishing.
+<p align="center">
+  <img src="docs/preview.svg" alt="Preview of the bilingual editorial landing page" width="900" />
+</p>
 
-The live site [`https://thetempuscode.com`](https://thetempuscode.com) is provided as an example of the source site's design; it is not part of this template's content or metadata.
+## What this is
 
-## License
+A public-safe starter for an immersive editorial site. It gives you a polished foundation without locking you into a CMS or runtime backend:
 
-The template's project-owned scaffolding is released under the [MIT License](LICENSE). Third-party code and assets remain subject to their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+- localized `/es/` and `/en/` routes;
+- static Astro generation with canonical and alternate-language metadata;
+- book or project landing pages with responsive layouts;
+- immersive WebGL background and particle-title effects;
+- generic legal, cookie, and third-party attribution pages;
+- accessible navigation, focus states, reduced-motion support, and responsive fallbacks.
+
+## See it in action
+
+The production site [`thetempuscode.com`](https://thetempuscode.com) is the visual reference that inspired this template. It is an example only; this repository contains generic content and artwork.
+
+### Gallery
+
+<p align="center">
+  <img src="docs/book-preview.svg" alt="Preview of the editorial book detail page" width="900" />
+</p>
+
+## Quick start
+
+```bash
+npm install
+npm run dev
+```
+
+Then open `http://localhost:4321/es/` or `http://localhost:4321/en/`.
+
+Before deploying:
+
+1. Replace the example content in [`src/data/books.ts`](src/data/books.ts).
+2. Replace the legal examples in [`src/data/legal.ts`](src/data/legal.ts).
+3. Replace `public/media/template-cover-*.svg` with artwork you are allowed to publish.
+4. Set your production origin in [`astro.config.mjs`](astro.config.mjs).
+5. Review [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+## Project map
+
+| Path | Purpose |
+| --- | --- |
+| `src/data/` | Localized editorial, legal, and attribution content |
+| `src/pages/` | Static route definitions for both locales |
+| `src/layouts/` | Shared HTML shell and SEO integration |
+| `src/components/` | Reusable consent, SEO, and presentation components |
+| `src/styles/` | Site-wide visual system and responsive rules |
+| `src/scripts/` | Interactive scene and particle effects |
+| `public/media/` | Replaceable example artwork |
+| `THIRD_PARTY_NOTICES.md` | Upstream credits and license requirements |
+
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the local development server |
+| `npm run check` | Run Astro and TypeScript diagnostics |
+| `npm run build` | Generate the production site in `dist/` |
+| `npm run preview` | Preview the production build locally |
+
+## Attribution and license
+
+The template-owned scaffolding is released under the [MIT License](LICENSE). The Wormhole Extreme scene and three.js remain subject to their own licenses and attribution requirements; read [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) before redistributing a customized version.
+
+## Contributing
+
+Issues and pull requests are welcome when they improve the generic template rather than adding private project content. Keep examples fictitious, accessible, bilingual where relevant, and safe to publish.
