@@ -15,6 +15,7 @@ export interface Props {
   ogType?: "website" | "book";
   book?: BookSeoData;
   immersive?: boolean;
+  bookPage?: boolean;
   showLocaleSwitch?: boolean;
 }
 
@@ -29,12 +30,13 @@ const {
   ogType,
   book,
   immersive = false,
+  bookPage = false,
   showLocaleSwitch = !immersive,
 } = Astro.props;
 const alternateLocale: Locale = locale === "es" ? "en" : "es";
 ---
 <!doctype html>
-<html lang={locale} class:list={{ immersive }}>
+<html lang={locale} class:list={{ immersive, "book-page": bookPage }}>
   <head>
     <meta charset="UTF-8" />
     <Seo
@@ -50,7 +52,7 @@ const alternateLocale: Locale = locale === "es" ? "en" : "es";
     />
     <slot name="head" />
   </head>
-  <body class:list={{ immersive }}>
+  <body class:list={{ immersive, "book-page": bookPage }}>
     {showLocaleSwitch && (
           <a
             class="locale-switch"
