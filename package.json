@@ -2,6 +2,19 @@
   "name": "bilingual-astro-editorial-template",
   "version": "0.1.0",
   "private": false,
+  "description": "A cinematic bilingual Astro template for books, portfolios, and editorial projects.",
+  "keywords": [
+    "astro",
+    "astro-template",
+    "bilingual",
+    "editorial",
+    "book-website",
+    "portfolio",
+    "three.js",
+    "webgl",
+    "static-site",
+    "i18n"
+  ],
   "type": "module",
   "scripts": {
     "dev": "astro dev",

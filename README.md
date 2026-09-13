@@ -18,7 +18,9 @@
 
 ## What this is
 
-A public-safe starter for an immersive editorial site. It gives you a polished foundation without locking you into a CMS or runtime backend:
+A public-safe starter for an immersive editorial site.
+
+**Keywords:** Astro template · bilingual website · editorial design · book website · portfolio starter · Three.js · WebGL · static site · i18n · responsive landing page It gives you a polished foundation without locking you into a CMS or runtime backend:
 
 - localized `/es/` and `/en/` routes;
 - static Astro generation with canonical and alternate-language metadata;
