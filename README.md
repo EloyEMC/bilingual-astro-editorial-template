@@ -69,7 +69,7 @@ Additional generic previews are available in [`docs/preview.svg`](docs/preview.s
 
 ### Video demo
 
-https://github.com/user-attachments/assets/765aeb47-39e8-40aa-8a9f-25b78a8e60ce
+[![Watch the video demo on YouTube](https://img.youtube.com/vi/6i7_l1JIzZc/maxresdefault.jpg)](https://www.youtube.com/watch?v=6i7_l1JIzZc)
 
 ## Quick start
 
