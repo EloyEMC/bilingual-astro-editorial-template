@@ -22,6 +22,8 @@ This is a **bilingual Astro starter for cinematic editorial websites**: book lau
 
 The template gives you the page structure and visual system; you replace the example data, artwork, links, and legal copy with your own project.
 
+This project is based on Astro's [Space theme](https://astro.build/themes/details/space/).
+
 **Keywords:** Astro template · bilingual website · editorial design · book website · portfolio starter · Three.js · WebGL · static site · i18n · responsive landing page
 
 ### What visitors see
